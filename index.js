@@ -33,15 +33,15 @@ function createPdf(pdfDoc, options) {
 	})	
 }
 module.exports = {
-    init: function(options){
+    _init: function(options){
         this.options = options;
     },
-    plugin: function(vm, ctx, site, options){        
-        vm.injectGlobalObject('_$$pdfEngine', {
+    _plugin: function(vm, ctx, site, options){                
+        vm.injectGlobalObject('_$$plugin_pdf_engine', {
             $$createFile: true,
-            createFile: async function(pdfDoc, options){
+            createFile: async function(pdfDoc, options){                
                 options = options || {};
-                let buffer = await createPdf(pdfDoc, options);
+                let buffer = await createPdf(pdfDoc, options);                
                 let guid = Uuid.v4();
                 let filePath = site.org.guid + '/' + guid;
                 await Storage.writeFile(filePath, buffer)                
@@ -54,7 +54,7 @@ module.exports = {
         }, ''+ function init(){
             global.Plugins.PdfEngine = {
                 createFile: async function(pdfDoc, options){
-                    let result = _$$pdfEngine.createFile(pdfDoc, options);                    
+                    let result =_$$plugin_pdf_engine.createFile(pdfDoc, options);                    
                     return JSON.parse(result)
                 }
             }
