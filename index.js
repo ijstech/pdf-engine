@@ -38,6 +38,12 @@ module.exports = {
     },
     _plugin: function(vm, ctx, site, options){                
         vm.injectGlobalObject('_$$plugin_pdf_engine', {
+            $$createDataUri: true,
+            createDataUri: async function(pdfDoc, options){                
+                options = options || {};
+                let buffer = await createPdf(pdfDoc, options);                                                
+                return 'data:application/pdf;base64,' + buffer.toString('base64')
+            },
             $$createFile: true,
             createFile: async function(pdfDoc, options){                
                 options = options || {};
@@ -54,8 +60,12 @@ module.exports = {
         }, ''+ function init(){
             global.Plugins.PdfEngine = {
                 createFile: async function(pdfDoc, options){
-                    let result =_$$plugin_pdf_engine.createFile(pdfDoc, options);                    
+                    let result = await _$$plugin_pdf_engine.createFile(pdfDoc, options);                    
                     return JSON.parse(result)
+                },
+                createDataUri: async function(pdfDoc, options){
+                    let result = await _$$plugin_pdf_engine.createDataUri(pdfDoc, options);
+                    return result;
                 }
             }
         } + ';init()')
