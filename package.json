@@ -1,11 +1,12 @@
 {
     "name": "@ijstech/pdf-engine",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "PDF Engine plugin",
     "author": "https://ijs.network",
     "license": "MIT",
     "dependencies": {
-        "pdfmake": "0.1.70"
+        "pdfmake": "0.1.70",
+        "@ijstech/storage": "^0.1.0"
     },
     "repository": {
         "type": "git",

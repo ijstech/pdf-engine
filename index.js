@@ -11,9 +11,6 @@ const DefaultFonts = {
     }
 };
 
-function createFile(content, options){
-
-}
 function createPdf(pdfDoc, options) {	
     options = options || {}
 	return new Promise(function(resolve, reject){        
